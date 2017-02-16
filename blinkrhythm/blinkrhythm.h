@@ -46,9 +46,9 @@ struct CmdPack {
 //送信パケット
 struct BroadcastPack {
   char status;
-  char o;
-  char u1;
-  char u2;
+  char p;
+  char c1;
+  char c2;
 };
 
 struct BroadcastPack sendBroadcastPack;

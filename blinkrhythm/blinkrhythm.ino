@@ -67,13 +67,13 @@ void udpReceive(){
         ledBlink(LED_PIN[pack->id]);
         //瞬き回数をカウントする
         if(pack->id == 0){
-          sendBroadcastPack.o++;    
+          sendBroadcastPack.p++;    
         }
         else if(pack->id == 1){
-          sendBroadcastPack.u1++;    
+          sendBroadcastPack.c1++;    
         }
         else if(pack->id == 2){
-          sendBroadcastPack.u2++;    
+          sendBroadcastPack.c2++;    
         }
       }
     }
@@ -110,8 +110,8 @@ void udpBroadcast(){
   if(sendBroadcastPack.status > 0){
     //測定結果の比較
     if(sendBroadcastPack.status == 2){
-      if((sendBroadcastPack.o == sendBroadcastPack.u1)
-        ||(sendBroadcastPack.o == sendBroadcastPack.u2)){
+      if((sendBroadcastPack.p == sendBroadcastPack.c1)
+        ||(sendBroadcastPack.p == sendBroadcastPack.c2)){
         //どちらかの回数が一致した場合 サーボを動かす
         //TODO 実機に合わせて動きの修正が必要    
         servo.write(0);
@@ -124,12 +124,14 @@ void udpBroadcast(){
     
     //結果を Broadcast 送信する
     sendBroadcast( sendBroadcastPack );
-    
-    //ブロードキャストしたので sendBroadcastPackを初期値へ戻す
-    sendBroadcastPack.status = 0;
-    sendBroadcastPack.o = 0;
-    sendBroadcastPack.u1 = 0;
-    sendBroadcastPack.u2 = 0;
+
+    if(sendBroadcastPack.status == 2){
+      //ブロードキャストしたので sendBroadcastPackを初期値へ戻す
+      sendBroadcastPack.status = 0;
+      sendBroadcastPack.p = 0;
+      sendBroadcastPack.c1 = 0;
+      sendBroadcastPack.c2 = 0;
+    }
   }
 }
 
